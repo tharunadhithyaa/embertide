@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+    <meta name="description" content="Ember & Tide - Contact Us" />
+    <title>Contact | EMBER & TIDE</title>
+    <link rel="stylesheet" href="/src/css/style.css" />
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+      body {
+        background-color: var(--bg-contact);
+      }
+      .page-header {
+        padding-top: 150px;
+        padding-bottom: 50px;
+        text-align: center;
+      }
+      .contact-card {
+        background-color: var(--bg-card);
+        padding: var(--space-8);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-lg);
+        text-align: center;
+      }
+      .contact-card .icon-box {
+        margin: 0 auto var(--space-4);
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header / Navigation -->
+    <header class="header">
+      <div class="container header-inner">
+        <a href="/" class="logo">
+          EMBER <span class="text-gold">&</span> TIDE
+        </a>
+        
+        <nav class="desktop-nav">
+          <ul class="nav-links">
+            <!-- Populated by JS -->
+          </ul>
+        </nav>
+        
+        <button class="mobile-menu-btn" aria-label="Toggle Menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </header>
+
+    <main>
+      <div class="page-header fade-in-up">
+        <span class="subtitle">Get in Touch</span>
+        <h1>Contact Us</h1>
+      </div>
+
+      <!-- Contact Section -->
+      <section id="contact" class="section" style="padding-top: 0; background-color: transparent;">
+        <div class="container">
+          <div class="grid grid-2 fade-in-up" style="align-items: start; gap: 4rem;">
+            <!-- Left Column: Details & Socials -->
+            <div class="contact-details-panel">
+              <div class="grid grid-2 gap-4 mb-8">
+                <div class="contact-card">
+                  <div class="icon-box" style="margin-bottom: var(--space-3);"><i data-lucide="map-pin"></i></div>
+                  <h4 class="mb-2">Address</h4>
+                  <p style="font-size: 0.95rem; color: var(--text-secondary); line-height: 1.6;">
+                    42 Harbour View Drive<br>Waterfront District<br>San Francisco, CA 94111
+                  </p>
+                </div>
+                <div class="contact-card">
+                  <div class="icon-box" style="margin-bottom: var(--space-3);"><i data-lucide="phone"></i></div>
+                  <h4 class="mb-2">Reservations</h4>
+                  <p style="font-size: 0.95rem; color: var(--text-secondary); line-height: 1.6;">
+                    <a href="tel:+14155550142" style="color: var(--text-primary); font-weight: 500;">+1 (415) 555-0142</a><br>
+                    <a href="mailto:reservations@emberandtide.com" style="color: var(--accent-primary);">reservations@emberandtide.com</a>
+                  </p>
+                </div>
+              </div>
+              
+              <!-- Business Hours Card -->
+              <div class="contact-card mb-8" style="text-align: left;">
+                <div class="flex align-center gap-3 mb-6">
+                  <div class="icon-box" style="margin: 0; width: 40px; height: 40px;"><i data-lucide="clock"></i></div>
+                  <h4 style="margin: 0; font-size: 1.25rem;">Dining Hours</h4>
+                </div>
+                <ul class="hours-list" style="display: flex; flex-direction: column; gap: 12px; font-size: 0.95rem; color: var(--text-secondary);">
+                  <li class="flex justify-between pb-2" style="border-bottom: 1px solid var(--border-light);"><span>Monday</span> <span style="color: var(--accent-secondary);">Closed</span></li>
+                  <li class="flex justify-between pb-2" style="border-bottom: 1px solid var(--border-light);"><span>Tuesday – Thursday</span> <span>5:00 PM – 10:00 PM</span></li>
+                  <li class="flex justify-between pb-2" style="border-bottom: 1px solid var(--border-light);"><span>Friday – Saturday</span> <span>5:00 PM – 11:30 PM</span></li>
+                  <li class="flex justify-between"><span>Sunday</span> <span>5:00 PM – 9:00 PM</span></li>
+                </ul>
+              </div>
+
+              <!-- Social Media Card -->
+              <div class="contact-card" style="text-align: center;">
+                <h4 class="mb-3">Connect With Us</h4>
+                <p class="mb-6" style="font-size: 0.95rem; color: var(--text-secondary);">Join our culinary community on social media.</p>
+                <div class="social-icons flex justify-center" style="gap: var(--space-4);">
+                  <a href="https://instagram.com/emberandtide" target="_blank" rel="noopener noreferrer" class="social-icon-btn" aria-label="Instagram">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line></svg>
+                  </a>
+                  <a href="https://twitter.com/emberandtide" target="_blank" rel="noopener noreferrer" class="social-icon-btn" aria-label="Twitter (X)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"></path></svg>
+                  </a>
+                  <a href="https://facebook.com/emberandtide" target="_blank" rel="noopener noreferrer" class="social-icon-btn" aria-label="Facebook">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right Column: Contact Form -->
+            <div class="contact-form-panel contact-card" style="text-align: left; padding: var(--space-6);">
+              <h3 class="mb-2" style="font-size: 1.75rem;">Send a Message</h3>
+              <p class="mb-8" style="color: var(--text-secondary); font-size: 0.95rem; line-height: 1.6;">Have questions about hosting private events, our menu, or custom experiences? Let us know.</p>
+              <form id="contact-form" class="flex flex-col" style="gap: 20px;">
+                <div class="form-group flex flex-col" style="gap: var(--space-1);">
+                  <label for="contact-name" style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-secondary); font-weight: 500;">Name</label>
+                  <input type="text" id="contact-name" placeholder="Your Name" class="form-input" required />
+                </div>
+                <div class="form-group flex flex-col" style="gap: var(--space-1);">
+                  <label for="contact-email" style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-secondary); font-weight: 500;">Email</label>
+                  <input type="email" id="contact-email" placeholder="Your Email" class="form-input" required />
+                </div>
+                <div class="form-group flex flex-col" style="gap: var(--space-1);">
+                  <label for="contact-subject" style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-secondary); font-weight: 500;">Subject</label>
+                  <input type="text" id="contact-subject" placeholder="Subject" class="form-input" required />
+                </div>
+                <div class="form-group flex flex-col" style="gap: var(--space-1);">
+                  <label for="contact-message" style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-secondary); font-weight: 500;">Message</label>
+                  <textarea id="contact-message" placeholder="Write your message here..." class="form-input" style="min-height: 140px; resize: vertical;" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%; padding: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 10px;">Send Message</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer id="footer" class="footer">
+      <div class="container">
+        <div class="grid grid-4 mb-8 fade-in-up">
+          <div class="footer-brand">
+            <a href="/" class="logo mb-4" style="display: block;">
+              EMBER <span class="text-gold">&</span> TIDE
+            </a>
+            <p>Where fire ignites flavor, and every tide brings a new culinary journey.</p>
+            <div class="social-links" style="display: flex; gap: 12px; margin-top: 16px;">
+              <a href="#" aria-label="Instagram" style="color: var(--text-secondary); transition: color var(--transition-fast);"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line></svg></a>
+              <a href="#" aria-label="Facebook" style="color: var(--text-secondary); transition: color var(--transition-fast);"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg></a>
+              <a href="#" aria-label="Twitter" style="color: var(--text-secondary); transition: color var(--transition-fast);"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"></path></svg></a>
+            </div>
+          </div>
+          
+          <div class="footer-widget">
+            <h4 class="mb-4">Quick Links</h4>
+            <ul class="footer-links">
+              <!-- Populated by JS -->
+            </ul>
+          </div>
+          
+          <div class="footer-widget">
+            <h4 class="mb-4">Contact</h4>
+            <div class="footer-contact">
+              <!-- Populated by JS -->
+            </div>
+          </div>
+          
+          <div class="footer-widget">
+            <h4 class="mb-4">Newsletter</h4>
+            <p style="font-size: 0.875rem;" class="mb-2">Subscribe for exclusive event invitations.</p>
+            <form class="newsletter-form flex">
+              <input type="email" placeholder="Email Address" class="form-input" required />
+              <button type="submit" class="btn" aria-label="Subscribe"><i data-lucide="arrow-right"></i></button>
+            </form>
+          </div>
+        </div>
+        
+        <div class="footer-bottom flex justify-between align-center border-top pt-4 fade-in-up">
+          <p>&copy; 2026 Ember & Tide. All rights reserved.</p>
+          <div class="footer-legal">
+            <a href="#" style="font-size: 0.875rem; color: var(--text-secondary); margin-left: 1rem;">Privacy Policy</a>
+            <a href="#" style="font-size: 0.875rem; color: var(--text-secondary); margin-left: 1rem;">Terms of Service</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Main Application Script -->
+    <script type="module" src="/src/js/main.js"></script>
+  </body>
+</html>

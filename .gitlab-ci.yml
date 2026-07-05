@@ -1,0 +1,151 @@
+# ────────────────────────────────────────────────────────────
+# EMBER & TIDE — GitLab CI/CD Pipeline
+# ────────────────────────────────────────────────────────────
+
+stages:
+  - build
+  - test
+  - package
+  - deploy
+
+variables:
+  NODE_IMAGE: node:20-alpine
+  DOCKER_IMAGE: docker:24-dind
+  CONTAINER_REGISTRY: $CI_REGISTRY
+  CONTAINER_IMAGE: $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA
+  CONTAINER_IMAGE_LATEST: $CI_REGISTRY_IMAGE:latest
+
+# ── Cache ──
+.node_cache: &node_cache
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}-node
+    paths:
+      - node_modules/
+    policy: pull-push
+
+# ══════════════════════════════════════════════════════════
+#  BUILD STAGE
+# ══════════════════════════════════════════════════════════
+
+install:
+  stage: build
+  image: $NODE_IMAGE
+  <<: *node_cache
+  script:
+    - npm ci --silent
+  artifacts:
+    paths:
+      - node_modules/
+    expire_in: 1 hour
+
+build:
+  stage: build
+  image: $NODE_IMAGE
+  needs: [install]
+  <<: *node_cache
+  script:
+    - npm run build
+  artifacts:
+    paths:
+      - dist/
+    expire_in: 1 day
+
+# ══════════════════════════════════════════════════════════
+#  TEST STAGE
+# ══════════════════════════════════════════════════════════
+
+lint:
+  stage: test
+  image: $NODE_IMAGE
+  needs: [install]
+  <<: *node_cache
+  script:
+    - npx eslint . --max-warnings=0
+  allow_failure: false
+
+typecheck:
+  stage: test
+  image: $NODE_IMAGE
+  needs: [install]
+  <<: *node_cache
+  script:
+    - npx tsc --noEmit
+  allow_failure: false
+
+# ══════════════════════════════════════════════════════════
+#  PACKAGE STAGE
+# ══════════════════════════════════════════════════════════
+
+docker-build:
+  stage: package
+  image: $DOCKER_IMAGE
+  services:
+    - docker:24-dind
+  needs: [build, lint, typecheck]
+  variables:
+    DOCKER_TLS_CERTDIR: "/certs"
+  before_script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+  script:
+    - docker build -t $CONTAINER_IMAGE -t $CONTAINER_IMAGE_LATEST .
+    - docker push $CONTAINER_IMAGE
+    - docker push $CONTAINER_IMAGE_LATEST
+  only:
+    - main
+    - develop
+
+# ══════════════════════════════════════════════════════════
+#  DEPLOY STAGE
+# ══════════════════════════════════════════════════════════
+
+deploy-staging:
+  stage: deploy
+  image: alpine:latest
+  needs: [docker-build]
+  environment:
+    name: staging
+    url: https://staging.emberandtide.com
+  before_script:
+    - apk add --no-cache openssh-client
+    - eval $(ssh-agent -s)
+    - echo "$SSH_PRIVATE_KEY" | ssh-add -
+    - mkdir -p ~/.ssh
+    - echo "$SSH_KNOWN_HOSTS" >> ~/.ssh/known_hosts
+  script:
+    - |
+      ssh $DEPLOY_USER@$DEPLOY_HOST_STAGING << 'EOF'
+        docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+        docker pull $CONTAINER_IMAGE_LATEST
+        docker stop ember-tide-staging || true
+        docker rm ember-tide-staging || true
+        docker run -d --name ember-tide-staging -p 8080:80 $CONTAINER_IMAGE_LATEST
+      EOF
+  only:
+    - develop
+  when: manual
+
+deploy-production:
+  stage: deploy
+  image: alpine:latest
+  needs: [docker-build]
+  environment:
+    name: production
+    url: https://emberandtide.com
+  before_script:
+    - apk add --no-cache openssh-client
+    - eval $(ssh-agent -s)
+    - echo "$SSH_PRIVATE_KEY" | ssh-add -
+    - mkdir -p ~/.ssh
+    - echo "$SSH_KNOWN_HOSTS" >> ~/.ssh/known_hosts
+  script:
+    - |
+      ssh $DEPLOY_USER@$DEPLOY_HOST_PRODUCTION << 'EOF'
+        docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+        docker pull $CONTAINER_IMAGE_LATEST
+        docker stop ember-tide-production || true
+        docker rm ember-tide-production || true
+        docker run -d --name ember-tide-production -p 80:80 --restart unless-stopped $CONTAINER_IMAGE_LATEST
+      EOF
+  only:
+    - main
+  when: manual
