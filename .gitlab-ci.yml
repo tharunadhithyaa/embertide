@@ -32,7 +32,7 @@ install:
   image: $NODE_IMAGE
   <<: *node_cache
   script:
-    - npm ci --silent
+    - npm ci 
   artifacts:
     paths:
       - node_modules/
