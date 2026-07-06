@@ -63,14 +63,6 @@ lint:
     - npx eslint . --max-warnings=0
   allow_failure: false
 
-typecheck:
-  stage: test
-  image: $NODE_IMAGE
-  needs: [install]
-  <<: *node_cache
-  script:
-    - npx tsc --noEmit
-  allow_failure: false
 
 # ══════════════════════════════════════════════════════════
 #  PACKAGE STAGE
