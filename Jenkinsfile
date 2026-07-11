@@ -124,22 +124,16 @@ pipeline {
         // ══════════════════════════════════════════════════════
         stage('Stop Existing Container') {
             steps {
-                echo '\u001B[36m══════════════════════════════════════════════════\u001B[0m'
-                echo '\u001B[36m  Stage 6: Stopping existing container...\u001B[0m'
-                echo '\u001B[36m══════════════════════════════════════════════════\u001B[0m'
+                echo 'Stopping existing container...'
 
-                // Idempotent: succeeds even if container doesn't exist
-                bat """
+                 bat '''
                     @echo off
-                    docker stop ${CONTAINER_NAME} 2>nul
-                    if %ERRORLEVEL% equ 0 (
-                        echo Container "${CONTAINER_NAME}" stopped successfully.
-                    ) else (
-                        echo No running container named "${CONTAINER_NAME}" found — skipping.
+                    docker stop ${CONTAINER_NAME} >nul 2>&1
+                    if %ERRORLEVEL% neq 0 (
+                        echo No running container found.
                     )
-                """
-
-                echo '\u001B[32m✔ Stop stage completed.\u001B[0m'
+                    exit /b 0
+                '''
             }
         }
 
@@ -148,22 +142,16 @@ pipeline {
         // ══════════════════════════════════════════════════════
         stage('Remove Existing Container') {
             steps {
-                echo '\u001B[36m══════════════════════════════════════════════════\u001B[0m'
-                echo '\u001B[36m  Stage 7: Removing existing container...\u001B[0m'
-                echo '\u001B[36m══════════════════════════════════════════════════\u001B[0m'
+                echo 'Removing existing container...'
 
-                // Idempotent: succeeds even if container doesn't exist
-                bat """
-                    @echo off
-                    docker rm ${CONTAINER_NAME} 2>nul
-                    if %ERRORLEVEL% equ 0 (
-                        echo Container "${CONTAINER_NAME}" removed successfully.
-                    ) else (
-                        echo No container named "${CONTAINER_NAME}" found — skipping.
-                    )
-                """
-
-                echo '\u001B[32m✔ Remove stage completed.\u001B[0m'
+                bat '''
+                @echo off
+                docker rm ${CONTAINER_NAME} >nul 2>&1
+                if %ERRORLEVEL% neq 0 (
+                    echo No container found.
+                )
+                   exit /b 0
+                '''
             }
         }
 
