@@ -73,19 +73,27 @@ docker-build:
   image: $DOCKER_IMAGE
   services:
     - docker:24-dind
-  needs: [build, lint]
+  needs:
+    - build
+    - lint
   variables:
     DOCKER_TLS_CERTDIR: "/certs"
+
   before_script:
-    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - 'echo "Registry: $CI_REGISTRY"'
+    - 'echo "Image: $CI_REGISTRY_IMAGE"'
+    - 'echo "User: $CI_REGISTRY_USER"'
+    - test -n "$CI_REGISTRY_PASSWORD" && echo "Password exists" || echo "Password missing"
+    - echo "$CI_REGISTRY_PASSWORD" | docker login "$CI_REGISTRY" -u "$CI_REGISTRY_USER" --password-stdin
+
   script:
     - docker build -t $CONTAINER_IMAGE -t $CONTAINER_IMAGE_LATEST .
     - docker push $CONTAINER_IMAGE
     - docker push $CONTAINER_IMAGE_LATEST
+
   only:
     - main
     - develop
-
 # ══════════════════════════════════════════════════════════
 #  DEPLOY STAGE
 # ══════════════════════════════════════════════════════════
