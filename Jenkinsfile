@@ -126,14 +126,16 @@ pipeline {
             steps {
                 echo 'Stopping existing container...'
 
-                 bat '''
-                    @echo off
-                    docker stop ${CONTAINER_NAME} >nul 2>&1
-                    if %ERRORLEVEL% neq 0 (
-                        echo No running container found.
-                    )
-                    exit /b 0
-                '''
+                bat """
+                @echo off
+                docker stop ${CONTAINER_NAME} >nul 2>&1
+                if %ERRORLEVEL% neq 0 (
+                    echo No running container found.
+                ) else (
+                    echo Container stopped.
+                )
+                exit /b 0
+                """
             }
         }
 
@@ -143,15 +145,16 @@ pipeline {
         stage('Remove Existing Container') {
             steps {
                 echo 'Removing existing container...'
-
-                bat '''
+                bat """
                 @echo off
                 docker rm ${CONTAINER_NAME} >nul 2>&1
                 if %ERRORLEVEL% neq 0 (
                     echo No container found.
+                ) else (
+                    echo Container removed.
                 )
-                   exit /b 0
-                '''
+                exit /b 0
+        """
             }
         }
 
